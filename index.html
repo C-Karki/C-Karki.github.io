@@ -9,7 +9,16 @@
   </head>
   <body>
     <h1>Nepal - Covid Total Cases</h1>
-    Data taken from https://ourworldindata.org/coronavirus/country/nepal?country=~NPL 
+    <script>
+     var today = new Date();
+     var dd = String(today.getDate()).padStart(2, '0');
+     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+     var yyyy = today.getFullYear();
+
+     today = mm + '/' + dd + '/' + yyyy;
+     document.write("Today's Date:" + today + "\n")
+    </script>
+    <p>Data taken from https://ourworldindata.org/coronavirus/country/nepal?country=~NPL</p> 
     <canvas id="myChart" width="400" height="200"></canvas>
 
     <script>
