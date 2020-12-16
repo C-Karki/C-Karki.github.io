@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </head>
   <body>
-    <h1>Nepal - Covid Total Cases</h1>
+    <h1>Nepal Covid Graph Generator</h1>
     <script>
      var today = new Date();
      var dd = String(today.getDate()).padStart(2, '0');
@@ -16,51 +16,18 @@
      var yyyy = today.getFullYear();
 
      today = mm + '/' + dd + '/' + yyyy;
-     document.write("Today's Date:" + today + "\n")
+     document.write("Today's Date: " + today + "\n")
+        }
     </script>
-    <p>Data taken from https://ourworldindata.org/coronavirus/country/nepal?country=~NPL</p> 
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <p> Total Cases: <span id='totalcases'></span><br \></p>
+    <p> Total Recoveries: <span id='recoveries'></span><br \></p>
+    <p> Deaths: <span id='deaths'></span><br \></p>
+    <p> Isolation: <span id='isolation'></span><br \></p>
+    <p> Quarantined: <span id='quarantine'></span><br \></p>
 
-    <script>
-
-      window.addEventListener('load', setup);
-
-      async function setup() {
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const globalTemps = await getData();
-        const myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: globalTemps.years,
-            datasets: [
-              {
-                label: 'Total Cases',
-                data: globalTemps.temps,
-                fill: false,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderWidth: 1
-              }
-            ]
-          },
-          options: {}
-        });
-      }
-
-      async function getData() {
-        // const response = await fetch('testdata.csv');
-        const response = await fetch('corona.csv');
-        const data = await response.text();
-        const years = [];
-        const temps = [];
-        const rows = data.split('\n').slice(1);
-        rows.forEach(row => {
-          const cols = row.split(',');
-          years.push(cols[0]);
-          temps.push(14 + parseFloat(cols[1]));
-        });
-        return { years, temps };
-      }
-    </script>
+    
+   <canvas id="myChart" width="400" height="200"></canvas>
+    <script src="chart.js"></script>
+    <p>Data taken from https://ourworldindata.org/coronavirus/country/nepal?country=~NPL</p>  
   </body>
 </html>
