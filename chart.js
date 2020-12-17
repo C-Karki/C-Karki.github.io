@@ -28,7 +28,7 @@ async function parseChartData(y_axis) {
 	array.forEach(element => y.push(element.confirmed));}
     else if (y_axis == "totalDeaths") {
 	array.forEach(element => y.push(element.deaths));} else if (y_axis == "recovered") {
-	    array.forEach(element => y.push(element.deaths));};
+	    array.forEach(element => y.push(element.recovered));};
     return {dates, y};
       }
 
