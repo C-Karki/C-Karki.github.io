@@ -1,12 +1,9 @@
 const api_nepal = 'https://nepalcorona.info/api/v1/data/nepal';
 const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json';
+const api_kaggle = 'https://pomber.github.io/covid19/timeseries.json';
       async function getCovidData() {
           const response = await fetch(api_nepal);
           const data = await response.json();
-	  const date = [];
-	  const totalDeaths = [];
-	  const totalRecoveries = [];
-	  const newCases = [];
 	  document.getElementById('totalcases').textContent = data.tested_positive;
 	  document.getElementById('recoveries').textContent = data.recovered;
 	  document.getElementById('deaths').textContent = data.deaths;
@@ -15,10 +12,11 @@ const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json
 	  document.getElementById('tests').textContent = data.tested_total;
       }
 getCovidData();
+
       async function getChartData() {
-          const response = await fetch(api_ourworld);
+          const response = await fetch(api_kaggle);
           const stuff = await response.json();
-	  return await stuff.NPL.data;
+	  return await stuff.Nepal;
       }
 // getChartData();
 async function parseChartData(y_axis) {
@@ -26,19 +24,11 @@ async function parseChartData(y_axis) {
     dates = [];
     y = [];
     array.forEach(element => dates.push(element.date));
-    if (y_axis == "newCases") {
-	array.forEach(element => y.push(element.new_cases_smoothed));}
-    else if (y_axis == "totalCases") {
-	array.forEach(element => y.push(element.total_cases));}
+     if (y_axis == "totalCases") {
+	array.forEach(element => y.push(element.confirmed));}
     else if (y_axis == "totalDeaths") {
-	array.forEach(element => y.push(element.total_deaths));}
-    else if (y_axis == "casesPerMil") {
-	array.forEach(element => y.push(element.total_cases_per_million));}
-    else if (y_axis == "totalTests") {
-	array.forEach(element => y.push(element.total_tests));}
-    else if (y_axis == "newDeaths") {
-	array.forEach(element => y.push(element.new_deaths_smoothed));};
-
+	array.forEach(element => y.push(element.deaths));} else if (y_axis == "recovered") {
+	    array.forEach(element => y.push(element.deaths));};
     return {dates, y};
       }
 
