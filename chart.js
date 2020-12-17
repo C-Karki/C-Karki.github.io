@@ -14,14 +14,13 @@ const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json
 	  document.getElementById('quarantine').textContent = data.quarantined;
 	  document.getElementById('tests').textContent = data.tested_total;
       }
-
 getCovidData();
       async function getChartData() {
           const response = await fetch(api_ourworld);
           const stuff = await response.json();
 	  return await stuff.NPL.data;
       }
-
+getChartData();
 async function parseChartData(y_axis) {
     array = await getChartData();
     dates = [];
