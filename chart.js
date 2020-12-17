@@ -1,38 +1,38 @@
 const api_nepal = 'https://nepalcorona.info/api/v1/data/nepal';
-const api_timeline_url = 'https://data.nepalcorona.info/api/v1/covid/timeline';
-const api_nepal_summary = 'https://data.nepalcorona.info/api/v1/covid/summary' ;
+const api_nepal_hospitals= 'https://nepalcorona.info/api/v1/hospitals' ;
+const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json';
       async function getCovidData() {
           const response = await fetch(api_nepal);
-          const data = await response.text();
-	  const total_cases = data.tested_positive;
+          const data = await response.json();
 	  const date = [];
 	  const totalDeaths = [];
 	  const totalRecoveries = [];
 	  const newCases = [];
 //	  data.forEach(newCases => tCases.push(newCases.totalCases));
-	  const x = JSON.parse(data);
-	  console.log(x);
-	  document.getElementById('totalcases').textContent = x.tested_positive;
-	  document.getElementById('recoveries').textContent = x.recovered;
-	  document.getElementById('deaths').textContent = x.deaths;
-	  document.getElementById('isolation').textContent = x.in_isolation;
-	  document.getElementById('quarantine').textContent = x.quarantined;
+	  document.getElementById('totalcases').textContent = data.tested_positive;
+	  document.getElementById('recoveries').textContent = data.recovered;
+	  document.getElementById('deaths').textContent = data.deaths;
+	  document.getElementById('isolation').textContent = data.in_isolation;
+	  document.getElementById('quarantine').textContent = data.quarantined;
+	  document.getElementById('tests').textContent = data.tested_total;
       }
 getCovidData();
+
 
 window.addEventListener('load', setup);
 
       async function setup() {
 	  const ctx = document.getElementById('myChart').getContext('2d');
-        const globalTemps = await getData();
+        const covid = await getTodayData();
+          console.log(covid);
         const myChart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: globalTemps.years,
+            labels: covid.dates,
             datasets: [
               {
                 label: 'Total Cases',
-                data: globalTemps.temps,
+                data: covid.y,
                 fill: false,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -43,18 +43,16 @@ window.addEventListener('load', setup);
           options: {}
         });
       }
-
-      async function getData() {
-        // const response = await fetch('testdata.csv');
-        const response = await fetch('corona.csv');
-        const data = await response.text();
-        const years = [];
-        const temps = [];
-        const rows = data.split('\n').slice(1);
-        rows.forEach(row => {
-          const cols = row.split(',');
-          years.push(cols[0]);
-          temps.push(14 + parseFloat(cols[1]));
-        });
-        return { years, temps };
+ 
+      async function getTodayData() {
+          const response = await fetch(api_ourworld);
+          const stuff = await response.json();
+	  array = stuff.NPL.data;
+	  dates = [];
+	  y = [];
+	  array.forEach(element => dates.push(element.date));
+	  array.forEach(element => y.push(element.total_cases));
+	  return {dates, y};
       }
+getTodayData();
+
