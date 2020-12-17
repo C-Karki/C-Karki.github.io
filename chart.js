@@ -19,56 +19,88 @@ const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json
 getCovidData();
 
 
-window.addEventListener('load', setup);
+// window.addEventListener('load', makeChart());
 
-      async function setup() {
-	  const ctx = document.getElementById('myChart').getContext('2d');
-        const covid = await getTodayData();
-          console.log(covid);
-        const myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: covid.dates,
-            datasets: [
-              {
-                label: 'Total Cases',
-                data: covid.y,
-                fill: false,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderWidth: 1
-              }
-            ]
-          },
-          options: {}
-        });
-      }
- 
-      async function getTodayData() {
+// async function makeChart(array, label) {
+// 	  const ctx = document.getElementById('myChart').getContext('2d');
+//         const covid = await getTodayData();
+// 	  [dates, y] = [covid.dates, covid.y]; 
+//         let myChart = new Chart(ctx, {
+//           type: 'line',
+//           data: {
+//             labels: covid.dates,
+//             datasets: [
+//               {
+//                 label: label,
+//                 data: y,
+//                 fill: false,
+//                 borderColor: 'rgba(255, 99, 132, 1)',
+//                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//                 borderWidth: 1
+//               }
+//             ]
+//           },
+//           options: {}
+//         });
+// 	  return myChart;
+//       }
+// makeChart(); 
+      async function getChartData(y_axis) {
           const response = await fetch(api_ourworld);
           const stuff = await response.json();
 	  array = stuff.NPL.data;
 	  dates = [];
 	  y = [];
 	  array.forEach(element => dates.push(element.date));
-	  array.forEach(element => y.push(element.total_cases));
+	  if (y_axis == "newcases") {
+	      array.forEach(element => y.push(element.new_cases));}
+	  else {
+	      array.forEach(element => y.push(element.total_cases));  };
 	  return {dates, y};
       }
 
-getTodayData();
-
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
+// getChartData();
+	
+async function makeChart(array, label) {
+        const ctx = document.getElementById("chart-0").getContext('2d');
+    const covid = await getChartData();
+    [dates, y] = [covid.dates, covid.y]; 
+    let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: covid.dates,
+            datasets: [
+		{
+                    label: label,
+                    data: y,
+                    fill: false,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderWidth: 1
+		}
+            ]
+        },
+        options: {}
     });
-    chart.update();
+    return myChart;
 }
+var chart = makeChart(getChartData(), "Total Cases");
 
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
+		// eslint-disable-next-line no-unused-vars
+document.getElementById("xyz").onclick = addDataset;
+		function addDataset() {
+			chart.data.datasets.push({
+				data: getChartData()
+			});
+			chart.update();
+		}
+
+		// eslint-disable-next-line no-unused-vars
+
+		// eslint-disable-next-line no-unused-vars
+		function removeDataset() {
+			chart.data.datasets.shift();
+			chart.update();
+		}
+
+
