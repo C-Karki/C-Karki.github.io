@@ -19,7 +19,7 @@ getCovidData();
       async function getChartData() {
           const response = await fetch(api_ourworld);
           const stuff = await response.json();
-	  return stuff.NPL.data;
+	  return await stuff.NPL.data;
       }
 
 async function parseChartData(y_axis) {
@@ -34,7 +34,12 @@ async function parseChartData(y_axis) {
     else if (y_axis == "totalDeaths") {
 	array.forEach(element => y.push(element.total_deaths));}
     else if (y_axis == "casesPerMil") {
-	array.forEach(element => y.push(element.total_cases_per_million));};
+	array.forEach(element => y.push(element.total_cases_per_million));}
+    else if (y_axis == "totalTests") {
+	array.forEach(element => y.push(element.total_tests));}
+    else if (y_axis == "newDeaths") {
+	array.forEach(element => y.push(element.new_deaths_smoothed));};
+
     return {dates, y};
       }
 
