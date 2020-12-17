@@ -20,7 +20,7 @@ getCovidData();
           const stuff = await response.json();
 	  return await stuff.NPL.data;
       }
-getChartData();
+// getChartData();
 async function parseChartData(y_axis) {
     array = await getChartData();
     dates = [];
