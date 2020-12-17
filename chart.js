@@ -54,3 +54,4 @@ async function makeChart(label, y_axis) {
         options: {}
     });
 }
+let chart = makeChart('Total Cases', 'totalCases');
