@@ -1,0 +1,20 @@
+#+title: Nepal Covid Graph Generator
+#+author: Chitij Karki
+
+* My first project 
+
+- Made by adapting the first module in [[https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw][Dan Schiffman's from Coding Train's]] [[https://github.com/CodingTrain/Intro-to-Data-APIs-JS][Intro to Data and APIs in JS]] tutorial series. 
+
+- This project fetches data from the API of [[https://ourworldindata.org/coronavirus/country/nepal?country=~NPL][Our World in Data]] and renders a graph plotting Nepal COVID-19 data using the [[https://www.chartjs.org/docs/latest/][chart.js]] library.
+
+
+* TODO Implement this Project with ReactJS frontend library
+
+* Documentation
+- Documentation for this project can be found in the following org files that accompany each file in the project.
+
+*Files in the Project:*
+[[file:index.org][1. index.html]]
+[[file:chartjs.org][2. chart.js]]
+
+
