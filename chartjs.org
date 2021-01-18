@@ -1,0 +1,92 @@
+#+title: Nepal Corona Charter
+#+PROPERTY: header-args:js :tangle "~/Documents/Programming/js/C-Karki.github.io/chart.js" :results silent  :comments link :exports code
+
+Written in javascript with the help of Dan Schiffman, Coding Train in his Data and APIs series
+
+Blessing it with the magic of literate programming since this is my first proper project and I need to rewrite this using the React js library.
+
+* API urls  
+
+#+begin_src  js
+  const api_nepal = 'https://nepalcorona.info/api/v1/data/nepal';
+  const api_ourworld = 'https://covid.ourworldindata.org/data/owid-covid-data.json';
+  const api_kaggle = 'https://pomber.github.io/covid19/timeseries.json';
+#+end_src
+
+* Async function to get covid data 
+
+#+begin_src  js
+  async function getCovidData() {
+      const response = await fetch(api_nepal);
+      const data = await response.json();
+      document.getElementById('totalcases').textContent = data.tested_positive;
+      document.getElementById('recoveries').textContent = data.recovered;
+      document.getElementById('deaths').textContent = data.deaths;
+      document.getElementById('isolation').textContent = data.in_isolation;
+      document.getElementById('quarantine').textContent = data.quarantined;
+      document.getElementById('tests').textContent = data.tested_total;
+  }
+#+end_src
+* Run async function getCoviddata 
+
+#+begin_src  js
+  getCovidData();
+#+end_src
+
+* Async function get chart data
+Why have I commented getChartdata?
+#+begin_src  js
+        async function getChartData() {
+            const response = await fetch(api_kaggle);
+            const stuff = await response.json();
+            return await stuff.Nepal;
+        }
+  // getChartData();
+#+end_src
+
+* Async function Parse Chart Data
+#+begin_src  js
+  async function parseChartData(y_axis) {
+      array = await getChartData();
+      dates = [];
+      y = [];
+      array.forEach(element => dates.push(element.date));
+       if (y_axis == "totalCases") {
+          array.forEach(element => y.push(element.confirmed));}
+      else if (y_axis == "totalDeaths") {
+          array.forEach(element => y.push(element.deaths));} else if (y_axis == "recovered") {
+              array.forEach(element => y.push(element.recovered));};
+      return {dates, y};
+        }
+#+end_src
+
+* Async function makechart  
+#+begin_src  js
+  async function makeChart(label, y_axis) {
+          const ctx = document.getElementById("chart-0").getContext('2d');
+      const array = await parseChartData(y_axis);
+      [dates, y] = [array.dates, array.y]; 
+      let myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: array.dates,
+              datasets: [
+                  {
+                      label: label,
+                      data: y,
+                      fill: false,
+                      borderColor: 'rgba(255, 99, 132, 1)',
+                      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                      borderWidth: 1
+                  }
+              ]
+          },
+          options: {}
+      });
+  }
+#+end_src
+
+* declar chart 
+#+begin_src  js
+  let chart = makeChart('Total Cases', 'totalCases');
+#+end_src
