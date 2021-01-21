@@ -41,27 +41,6 @@
     }
   }
 #+end_src
-* ~src/App.js~
-#+begin_src  js :tangle "./App.js" :comments link
-  import React from 'react';
-  import { Header } from './components/Header';
-  import { Info } from './components/Info';
-  import './App.css';
-
-  function App() {
-    return (
-      <div>
-      <div>
-	<Header />
-	{/* <div className="container"> */}
-	  <Info />
-	</div>
-      </div>
-    );
-  }
-
-  export default App;
-#+end_src
 * ~src/index.js~
 #+begin_src  js :tangle "./index.js"
 import React from 'react';
@@ -77,3 +56,26 @@ ReactDOM.render(
 #+end_src
 
 
+* ~src/App.js~
+#+begin_src  js :tangle "./App.js" :comments link
+  import React from 'react';
+  import { Header } from './components/Header';
+  // import { Info } from './components/Info';
+  import { Time } from './components/Time';
+  import './App.css';
+
+  function App() {
+    return (
+      <div>
+      <div>
+	<Header />
+	<Time />
+	{/* <div className="container"> */}
+	  {/* <Info /> */}
+	</div>
+      </div>
+    );
+  }
+
+  export default App;
+#+end_src

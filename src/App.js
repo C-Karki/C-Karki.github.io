@@ -1,7 +1,8 @@
-// [[file:/ssh:chitij@c-karki:/home/chitij/builds/C-Karki.Github.io/src/src.org::*~src/App.js~][~src/App.js~:1]]
+// [[file:src.org::*~src/App.js~][~src/App.js~:1]]
 import React from 'react';
 import { Header } from './components/Header';
-import { Info } from './components/Info';
+// import { Info } from './components/Info';
+import { Time } from './components/Time';
 import './App.css';
 
 function App() {
@@ -9,8 +10,9 @@ function App() {
     <div>
     <div>
       <Header />
+      <Time />
       {/* <div className="container"> */}
-	<Info />
+	{/* <Info /> */}
       </div>
     </div>
   );
