@@ -1,6 +1,41 @@
-import React, { Component } from 'react';
+import { useEffect, useState } from "react";
+import Stats from "./Stats";
 
-const api_nepal = 'http://nepalcorona.info/api/v1/data/nepal';
+export const Info = () => {
+  const [data, setData] = useState(null);
+  const api_nepal = "http://nepalcorona.info/api/v1/data/nepal";
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(api_nepal)
+      .then(res => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error("could not fetch the data for that resource");
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(false);
+        setData(data);
+        setError(null);
+      })
+      .catch(err => {
+        // auto catches network / connection error
+        setIsPending(false);
+        setError(err.message);
+      });
+  }, []);
+    console.log(data); 
+  return (
+    <div className="Info">
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {data && <Stats data={data} />}
+    </div>
+  );
+};
 
 // let data = async () => {
 //           const response = await fetch(api_nepal);
@@ -21,38 +56,6 @@ const api_nepal = 'http://nepalcorona.info/api/v1/data/nepal';
 
 // const display = (props) => {
 //     return (
-//         <h4>{props.category} = {props.num}</h4> 
+//         <h4>{props.category} = {props.num}</h4>
 //     );
 // };
-
-// export const Info = () => {
-//     return (
-//         <>
-//           <h4>${ data[0] }</h4>
-//         </>
-//    );
-//  };
-class Information extends Component {
-  constructor(props) {
-    super(props);
- 
-    this.state = {
-        stats:  [],
-    };
-  }
- 
-  componentDidMount() {
-    fetch('api_nepal')
-      .then(response => response.json())
-          .then(data => this.setState({ stats: data.tested_positive }));
-  } 
-
-    render () {
-        const { stats } = this.state;
-        return (
-            <h4>{ stats }</h4>   
-        );
-    }
-}
-const Info = new Information;
-export default Info;

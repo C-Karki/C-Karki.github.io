@@ -1,7 +1,7 @@
 // [[file:src.org::*~src/App.js~][~src/App.js~:1]]
 import React from 'react';
 import { Header } from './components/Header';
-// import { Info } from './components/Info';
+import { Info } from './components/Info';
 import { Time } from './components/Time';
 import './App.css';
 
@@ -12,7 +12,7 @@ function App() {
       <Header />
       <Time />
       {/* <div className="container"> */}
-	{/* <Info /> */}
+      <Info />
       </div>
     </div>
   );
